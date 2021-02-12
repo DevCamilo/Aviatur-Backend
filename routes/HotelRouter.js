@@ -4,12 +4,14 @@ const express = require('express');
 const { celebrate, Joi } = require('celebrate');
 // Se crea una variable para las rutas del servidor
 const api = express.Router();
+// Se importa el middleware de autenticación
+const Auth = require('../middleware/Auth');
 
 // Se importal el controllador del hotel
 const HotelController = require('../controllers/HotelController');
 
 // Se crea la ruta de la api para crear hoteles
-api.post('/create-hotel', celebrate({
+api.post('/create-hotel', Auth.isAuth, celebrate({
     body: Joi.object().keys({ // Se validan los parametros del body
         name: Joi.string().required(),
         city: Joi.string().required(),
@@ -22,10 +24,10 @@ api.post('/create-hotel', celebrate({
 }, HotelController.createHotel);
 
 // Se crea la ruta de la api para listar todos los registros
-api.get('/list-all', HotelController.listAllHotel);
+api.get('/list-all', Auth.isAuth, HotelController.listAllHotel);
 
 // Se crea la ruta de la api para lista los registros por ID
-api.get('/list-by-id/:id?', celebrate({
+api.get('/list-by-id/:id?', Auth.isAuth, celebrate({
     query: Joi.object({
         id: Joi.string().required()
     }).unknown()
@@ -34,7 +36,7 @@ api.get('/list-by-id/:id?', celebrate({
 }, HotelController.listById);
 
 // Se crea la ruta de la api para actualizar los registros
-api.put("/update/:id?", celebrate({
+api.put("/update/:id?", Auth.isAuth, celebrate({
     query: Joi.object({
         id: Joi.string().required()
     }).unknown(),
@@ -50,7 +52,7 @@ api.put("/update/:id?", celebrate({
 }, HotelController.updateHotel);
 
 // Se crea la ruta de la api para eliminar los registros por ID
-api.get('/delete-by-id/:id?', celebrate({
+api.get('/delete-by-id/:id?', Auth.isAuth, celebrate({
     query: Joi.object({
         id: Joi.string().required()
     }).unknown()
