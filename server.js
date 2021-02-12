@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // Se importan las rutas
 const HotelRoutes = require('./routes/HotelRouter');
+const UserRoutes = require('./routes/UserRoutes');
 
 // Se inicializa una nueva app de Express
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 // Se usa las rutas selecionadas
 app.use(HotelRoutes);
+app.use(UserRoutes);
 
 // Se inicia el servidor en el puerto configuurado
 app.listen(port, () => {

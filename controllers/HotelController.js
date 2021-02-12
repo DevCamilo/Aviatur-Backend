@@ -4,7 +4,7 @@ const Hotel = require('../models/HotelModel');
 // Controllador para crear nuevos hoteles
 function createHotel(req, res) {
     const newHotel = new Hotel.newHotel(req.body);
-    Hotel.create(req.body, (err, hotel) => {
+    Hotel.create(newHotel, (err, hotel) => {
         if (err) {
             res.status(500).send({ status: false, message: "Fallo al crear el Hotel" });
         } else {
